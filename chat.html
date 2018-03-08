@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function (){
+
+            var message = "";  
+            setInterval(function(){
+                getdata();	x
+            },200);
+
+            function getdata() {
+                $.get("getdata.php",function (data) {
+                    <span style="white-space:pre;">			</span>//3个参数，(地址，内容，返回值），这里只有地址和返回值
+                    var count = 0;
+                    for (a in data){
+                        count++;
+                    }
+                    var show = 0;
+                    for (a in data){
+                        if ( show >= count-15 ){
+                            message += "<p>"+ data[a].username + "：" + data[a].message+"</p>";
+                            $("#show_message").html(message);
+                        }
+                          show++;
+                    }
+
+                    message = "";
+                });
+            }
+
+            $("#ckq").keydown(function(e){    //按下键盘触发函数
+                if(e.keyCode==13){            //如果按下的是回车
+                    var user = $('input:radio:checked').val();
+                    $.ajax({
+                        url: "chat.php", //获取数据的地址
+                        type: "post", //方式
+                        async: false, //同步/异步
+                        data: {"in":$("#ckq").val(),"username":user}
+                    });
+                    getdata();
+                    $("#ckq").val("");//返回或设置被选函数
+                }
+            });
+
+        })
+
+    </script>
+ 
+
+    <style type="text/css">
+
+    </style> 
+
+
+</head>
+<body>
+<p id="message">即时通讯系统</p>
+<p>西电码农与老板的对话：</p>
+选择身份：<input type="radio" name="sex" value="西电码农" checked>西电码农
+<input type="radio" name="sex" value="老板">老板
+<br>
+<div id="show_message">
+</div>
+<p>
+  <input type="text" id="ckq" name="in">
+  
+</p>
+</body>
+</html>
